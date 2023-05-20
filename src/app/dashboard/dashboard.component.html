@@ -1,0 +1,62 @@
+<mat-drawer-container class="example-container" autosize>
+
+  <!-- SIDEBAR -->
+  <mat-drawer [opened]="true" #drawer class="example-sidenav" mode="side">
+
+
+
+    <div class="text-center">
+
+      <img width="50" height="50" src="../../assets/img/usuarios/admin.png">
+
+      <p class="mt-2">{{ (authUser$ | async)?.email | lowercase }} </p>
+      <p>{{ (authUser$ | async)?.role | uppercase }}</p>
+
+    </div>
+
+    <mat-nav-list>
+      <ng-container *ngFor="let link of links">
+        <ng-container *ngIf="link.titulo !== 'Usuarios' || (link.titulo === 'Usuarios' && authUserRole?.role === 'Admin')">
+          <a [routerLink]="link.path" mat-list-item>
+            <mat-icon *ngIf="link.icon">{{ link.icon }}</mat-icon> {{ link.titulo }}
+          </a>
+        </ng-container>
+      </ng-container>
+
+      <a mat-list-item (click)="logout()">Cerrar Sesión</a>
+    </mat-nav-list>
+
+    <!-- <p>Auto-resizing sidenav</p>
+    <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
+    <button (click)="showFiller = !showFiller" mat-raised-button>
+      {{ showFiller ? 'Show less' : 'Show more'}}
+    </button> -->
+
+
+  </mat-drawer>
+
+  <!-- MI WRAPPER  -->
+  <div class="example-sidenav-content">
+    <!-- TOOLBAR  -->
+    <mat-toolbar color="primary">
+      <div class="menu-wrapper">
+        <div class="menu-button">
+          <button (click)="drawer.toggle()" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+            <mat-icon>menu</mat-icon>
+          </button>
+        </div>
+        <div class="title-wrapper">
+          <span class="title">{{ title }}</span>
+          <small class="breadcrumbs">{{ breadcrumbs | async }}</small>
+        </div>
+      </div>
+      <p></p>
+    </mat-toolbar>
+
+    <main>
+
+      <router-outlet></router-outlet>
+
+    </main>
+  </div>
+</mat-drawer-container>
